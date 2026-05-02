@@ -1,13 +1,11 @@
 import * as pdfjsLib from 'pdfjs-dist';
-// @ts-ignore
-import pdfWorkerSrc from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 import JSZip from 'jszip';
 import heic2any from 'heic2any';
 import mammoth from 'mammoth';
 import * as xlsx from 'xlsx';
 import html2pdf from 'html2pdf.js';
 
-pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorkerSrc;
+pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.mjs`;
 
 import { jsPDF } from 'jspdf';
 
