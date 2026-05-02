@@ -128,7 +128,6 @@ export default function App() {
     const lowerName = file.name.toLowerCase();
     const isImage = file.type.startsWith('image/') || ['.heic', '.heif', '.raw', '.cr2', '.cr3', '.crw', '.nef', '.nrw', '.arw', '.srf', '.sr2', '.raf', '.orf', '.rw2', '.pef', '.svg', '.eps', '.ai', '.cdr', '.psd', '.psb', '.xcf', '.indd', '.clip', '.ico', '.icns', '.tga', '.targa', '.exr', '.dds', '.bmp', '.dib', '.tiff', '.tif', '.jpg', '.jpeg', '.jpe', '.png', '.gif', '.webp', '.avif', '.apng'].some(ext => lowerName.endsWith(ext));
     const isDocx = lowerName.endsWith('.docx') || lowerName.endsWith('.doc');
-    const isPptx = lowerName.endsWith('.pptx') || lowerName.endsWith('.ppt');
     const isXlsx = lowerName.endsWith('.xlsx') || lowerName.endsWith('.xls') || lowerName.endsWith('.csv');
     const isPdf = file.type === 'application/pdf' || lowerName.endsWith('.pdf');
 
@@ -150,7 +149,7 @@ export default function App() {
       return [imageOpts, pdfOpt];
     } else if (isPdf) {
       return [imageOpts];
-    } else if (isDocx || isPptx) {
+    } else if (isDocx) {
       return [pdfOpt, imageOpts];
     } else if (isXlsx) {
       return [csvOpt, pdfOpt];

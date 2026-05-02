@@ -7,6 +7,7 @@ import html2pdf from 'html2pdf.js';
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.mjs`;
 
+
 import { jsPDF } from 'jspdf';
 
 export type FileType = 'image/png' | 'image/jpeg' | 'image/webp' | 'application/pdf' | 'text/csv' | 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
@@ -53,20 +54,6 @@ export async function convertXlsxToCsv(options: ConvertOptions): Promise<Blob> {
   const csvStr = xlsx.utils.sheet_to_csv(worksheet);
   if (options.onProgress) options.onProgress(100);
   return new Blob([csvStr], { type: 'text/csv' });
-}
-
-export async function convertPptxToPdfMock(options: ConvertOptions): Promise<Blob> {
-  return new Promise((resolve) => {
-    if (options.onProgress) options.onProgress(50);
-    const pdf = new jsPDF();
-    pdf.setFontSize(22);
-    pdf.text(options.file.name, 20, 30);
-    pdf.setFontSize(14);
-    pdf.text("Client-side PPTX conversion requires a backend service.", 20, 50);
-    const blob = pdf.output('blob');
-    if (options.onProgress) options.onProgress(100);
-    resolve(blob);
-  });
 }
 
 export async function convertImageToPdf(options: ConvertOptions): Promise<Blob> {
@@ -271,21 +258,10 @@ export async function mergeImagesToPdf(files: File[], onProgress?: (progress: nu
 }
 
 export async function convertGenericMock(options: ConvertOptions, ext: string): Promise<Blob> {
-  return new Promise((resolve) => {
-    let progress = 10;
-    if (options.onProgress) options.onProgress(progress);
-    
-    const interval = setInterval(() => {
-      progress += 20;
-      if (options.onProgress) options.onProgress(progress);
-      if (progress >= 100) {
-        clearInterval(interval);
-        
-        // Return a simple text file or simple dummy file
-        const blob = new Blob(["This is a simulated conversion result for preview purposes.\nReal processing requires a backend."], { type: options.toType });
-        resolve(blob);
-      }
-    }, 300);
+  return new Promise((_, reject) => {
+    setTimeout(() => {
+      reject(new Error("Format ini belum didukung untuk konversi di browser."));
+    }, 500);
   });
 }
 
@@ -351,20 +327,6 @@ export async function convertFile(options: ConvertOptions): Promise<{ blob: Blob
     } else if (isXlsx && toType === 'text/csv') {
       resultBlob = await convertXlsxToCsv(options);
       return { blob: resultBlob, name: `${originalNameWithoutExt}.csv` };
-    } else if (isPptx && toType === 'application/pdf') {
-      resultBlob = await convertPptxToPdfMock(options);
-      return { blob: resultBlob, name: `${originalNameWithoutExt}.pdf` };
-    } else if (isPptx && isTargetImage) {
-      // First mock convert PPTX to PDF, then PDF to image
-      const pdfBlob = await convertPptxToPdfMock({...options, onProgress: undefined});
-      const tempPdfFile = new File([pdfBlob], 'temp.pdf', { type: 'application/pdf' });
-      resultBlob = await convertPdfToImages({...options, file: tempPdfFile});
-      
-      if (resultBlob.type === 'application/zip') {
-        return { blob: resultBlob, name: `${originalNameWithoutExt}_images.zip` };
-      } else {
-        return { blob: resultBlob, name: `${originalNameWithoutExt}.${ext}` };
-      }
     }
 
     // Default fallback mock
