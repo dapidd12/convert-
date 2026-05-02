@@ -115,6 +115,7 @@ const translations = {
 export default function App() {
   const [lang, setLang] = useState<Language>('id');
   const [showWelcome, setShowWelcome] = useState(true);
+  const [errorPopup, setErrorPopup] = useState<string | null>(null);
   const t = translations[lang];
 
   const [mode, setMode] = useState<AppMode>('convert');
@@ -204,9 +205,11 @@ export default function App() {
           : t
       ));
     } catch (error: any) {
+      const msg = error.message || "Conversion failed";
+      setErrorPopup(msg);
       setTasks((prev) => prev.map((t) => 
         t.id === task.id 
-          ? { ...t, status: 'error', error: error.message || "Conversion failed", targetFormat } 
+          ? { ...t, status: 'error', error: msg, targetFormat } 
           : t
       ));
     }
@@ -714,6 +717,40 @@ export default function App() {
                 <button
                   onClick={() => setShowWelcome(false)}
                   className="w-full sm:w-auto px-8 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-bold transition-all hover:scale-105 active:scale-95 shadow-lg shadow-blue-500/20"
+                >
+                  {t.close}
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+      {/* Error Popup Modal */}
+      <AnimatePresence>
+        {errorPopup && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              className="bg-slate-900 border border-red-500/30 shadow-2xl rounded-2xl p-6 sm:p-8 max-w-md w-full relative overflow-hidden"
+            >
+              <div className="flex flex-col items-center text-center space-y-4 relative z-10">
+                <div className="w-16 h-16 rounded-full bg-red-500/20 flex items-center justify-center mb-2">
+                  <AlertCircle className="w-8 h-8 text-red-500" />
+                </div>
+                
+                <h3 className="text-xl sm:text-2xl font-bold text-white">
+                  {lang === 'id' ? 'Konversi Gagal' : 'Conversion Failed'}
+                </h3>
+                
+                <p className="text-slate-300 text-sm sm:text-base pb-4">
+                  {errorPopup}
+                </p>
+                
+                <button
+                  onClick={() => setErrorPopup(null)}
+                  className="w-full sm:w-auto px-8 py-3 bg-red-600 hover:bg-red-500 text-white rounded-xl font-bold transition-all shadow-lg shadow-red-500/20"
                 >
                   {t.close}
                 </button>

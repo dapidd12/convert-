@@ -260,7 +260,7 @@ export async function mergeImagesToPdf(files: File[], onProgress?: (progress: nu
 export async function convertGenericMock(options: ConvertOptions, ext: string): Promise<Blob> {
   return new Promise((_, reject) => {
     setTimeout(() => {
-      reject(new Error("Format ini belum didukung untuk konversi di browser."));
+      reject(new Error(`Peringatan: Konversi file dari atau ke format .${ext} memerlukan layanan backend (server). Website ini berjalan sepenuhnya di browser (sisi klien) dan belum mendukung konversi untuk format tersebut.`));
     }, 500);
   });
 }
