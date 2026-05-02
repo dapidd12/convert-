@@ -125,31 +125,39 @@ export default function App() {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const getValidTargets = (file: File) => {
-    return [
-      { group: 'Images', opts: [
-          { value: 'image/jpeg', label: 'JPG' },
-          { value: 'image/png', label: 'PNG' },
-          { value: 'image/webp', label: 'WEBP' },
-          { value: 'image/gif', label: 'GIF' }
-      ]},
-      { group: 'Documents', opts: [
-          { value: 'application/pdf', label: 'PDF' },
-          { value: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', label: 'DOCX' },
-          { value: 'text/plain', label: 'TXT' },
-          { value: 'text/csv', label: 'CSV' }
-      ]},
-      { group: 'Spreadsheets', opts: [
-          { value: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', label: 'XLSX' }
-      ]},
-      { group: 'Presentations', opts: [
-          { value: 'application/vnd.openxmlformats-officedocument.presentationml.presentation', label: 'PPTX' }
-      ]},
-      { group: 'Video', opts: [
-          { value: 'video/mp4', label: 'MP4' },
-          { value: 'video/webm', label: 'WEBM' },
-          { value: 'video/avi', label: 'AVI' }
-      ]}
-    ];
+    const lowerName = file.name.toLowerCase();
+    const isImage = file.type.startsWith('image/') || ['.heic', '.heif', '.raw', '.cr2', '.cr3', '.crw', '.nef', '.nrw', '.arw', '.srf', '.sr2', '.raf', '.orf', '.rw2', '.pef', '.svg', '.eps', '.ai', '.cdr', '.psd', '.psb', '.xcf', '.indd', '.clip', '.ico', '.icns', '.tga', '.targa', '.exr', '.dds', '.bmp', '.dib', '.tiff', '.tif', '.jpg', '.jpeg', '.jpe', '.png', '.gif', '.webp', '.avif', '.apng'].some(ext => lowerName.endsWith(ext));
+    const isDocx = lowerName.endsWith('.docx') || lowerName.endsWith('.doc');
+    const isPptx = lowerName.endsWith('.pptx') || lowerName.endsWith('.ppt');
+    const isXlsx = lowerName.endsWith('.xlsx') || lowerName.endsWith('.xls') || lowerName.endsWith('.csv');
+    const isPdf = file.type === 'application/pdf' || lowerName.endsWith('.pdf');
+
+    const imageOpts = { group: 'Images', opts: [
+      { value: 'image/jpeg', label: 'JPG' },
+      { value: 'image/png', label: 'PNG' },
+      { value: 'image/webp', label: 'WEBP' }
+    ]};
+    
+    const pdfOpt = { group: 'Documents', opts: [
+      { value: 'application/pdf', label: 'PDF' }
+    ]};
+    
+    const csvOpt = { group: 'Spreadsheets', opts: [
+      { value: 'text/csv', label: 'CSV' }
+    ]};
+
+    if (isImage) {
+      return [imageOpts, pdfOpt];
+    } else if (isPdf) {
+      return [imageOpts];
+    } else if (isDocx || isPptx) {
+      return [pdfOpt, imageOpts];
+    } else if (isXlsx) {
+      return [csvOpt, pdfOpt];
+    }
+
+    // Default fallback
+    return [imageOpts, pdfOpt];
   };
 
   const getSmartTargetFormat = (file: File): FileType => {

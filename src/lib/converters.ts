@@ -339,15 +339,37 @@ export async function convertFile(options: ConvertOptions): Promise<{ blob: Blob
     } else if (isDocx && toType === 'application/pdf') {
       resultBlob = await convertDocxToPdf(options);
       return { blob: resultBlob, name: `${originalNameWithoutExt}.pdf` };
+    } else if (isDocx && isTargetImage) {
+      // First convert docx to PDF, then PDF to image
+      const pdfBlob = await convertDocxToPdf({...options, onProgress: undefined});
+      const tempPdfFile = new File([pdfBlob], 'temp.pdf', { type: 'application/pdf' });
+      resultBlob = await convertPdfToImages({...options, file: tempPdfFile});
+      
+      if (resultBlob.type === 'application/zip') {
+        return { blob: resultBlob, name: `${originalNameWithoutExt}_images.zip` };
+      } else {
+        return { blob: resultBlob, name: `${originalNameWithoutExt}.${ext}` };
+      }
     } else if (isXlsx && toType === 'text/csv') {
       resultBlob = await convertXlsxToCsv(options);
       return { blob: resultBlob, name: `${originalNameWithoutExt}.csv` };
     } else if (isPptx && toType === 'application/pdf') {
       resultBlob = await convertPptxToPdfMock(options);
       return { blob: resultBlob, name: `${originalNameWithoutExt}.pdf` };
+    } else if (isPptx && isTargetImage) {
+      // First mock convert PPTX to PDF, then PDF to image
+      const pdfBlob = await convertPptxToPdfMock({...options, onProgress: undefined});
+      const tempPdfFile = new File([pdfBlob], 'temp.pdf', { type: 'application/pdf' });
+      resultBlob = await convertPdfToImages({...options, file: tempPdfFile});
+      
+      if (resultBlob.type === 'application/zip') {
+        return { blob: resultBlob, name: `${originalNameWithoutExt}_images.zip` };
+      } else {
+        return { blob: resultBlob, name: `${originalNameWithoutExt}.${ext}` };
+      }
     }
 
-    // Fallback Mock for formatting extensions requested by user (Video, other docs)
+    // Default fallback mock
     resultBlob = await convertGenericMock(options, ext);
     return { blob: resultBlob, name: `${originalNameWithoutExt}.${ext}` };
   } catch (error) {
