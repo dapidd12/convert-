@@ -16,17 +16,22 @@ export default defineConfig(({mode}) => {
           maximumFileSizeToCacheInBytes: 6 * 1024 * 1024,
         },
         manifest: {
-          name: 'OmniConvert',
-          short_name: 'OmniConvert',
+          name: 'Converter',
+          short_name: 'Converter',
           description: 'A comprehensive, beautifully designed file converter platform.',
           theme_color: '#020617',
           background_color: '#020617',
           display: 'standalone',
           icons: [
             {
-              src: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M12 2L2 22h20L12 2z"/></svg>',
+              src: 'https://raw.githubusercontent.com/dapidd12/storage/main/tes/1777687843806-Screenshot_20260502_090914.jpg',
               sizes: '192x192',
-              type: 'image/svg+xml'
+              type: 'image/jpeg'
+            },
+            {
+              src: 'https://raw.githubusercontent.com/dapidd12/storage/main/tes/1777687843806-Screenshot_20260502_090914.jpg',
+              sizes: '512x512',
+              type: 'image/jpeg'
             }
           ]
         }

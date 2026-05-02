@@ -35,7 +35,7 @@ interface FileConversionTask {
 
 const translations = {
   id: {
-    title: 'KAIConverter',
+    title: 'Converter',
     subtitle: 'Konversi Aman & Sisi Klien',
     convertMode: 'Konversi File',
     mergeMode: 'Gabung ke PDF',
@@ -63,7 +63,7 @@ const translations = {
     convertedTo: 'Berhasil dikonversi ke',
     footer: 'Hak Cipta',
     allRightsReserved: 'Seluruh hak cipta dilindungi.',
-    welcomeTitle: 'Selamat Datang di KAIConverter!',
+    welcomeTitle: 'Selamat Datang di Converter!',
     welcomeDesc1: 'Platform all-in-one Anda untuk mengonversi gambar, dokumen, dan video.',
     welcomeDesc2: 'Semuanya diproses secara lokal di browser Anda, memastikan data Anda tetap pribadi dan aman. Tidak perlu pendaftaran, ukuran file tidak dibatasi!',
     welcomeDesc3: 'Terima kasih telah menggunakan layanan kami. Selamat mencoba!',
@@ -73,7 +73,7 @@ const translations = {
     uploadMore: 'Unggah File Lainnya',
   },
   en: {
-    title: 'KAIConverter',
+    title: 'Converter',
     subtitle: 'Secure & Client-Side Converting',
     convertMode: 'Convert Files',
     mergeMode: 'Merge to PDF',
@@ -101,7 +101,7 @@ const translations = {
     convertedTo: 'Converted to',
     footer: 'Copyright',
     allRightsReserved: 'All rights reserved.',
-    welcomeTitle: 'Welcome to KAIConverter!',
+    welcomeTitle: 'Welcome to Converter!',
     welcomeDesc1: 'Your all-in-one platform for converting images, documents, and videos.',
     welcomeDesc2: 'Everything is processed locally in your browser, ensuring your data remains private and secure. No sign-up required, unlimited file size!',
     welcomeDesc3: 'Thank you for using our service. Enjoy!',
@@ -311,8 +311,8 @@ export default function App() {
       {/* Navbar */}
       <header className="relative z-10 flex flex-col sm:flex-row items-center justify-between px-6 py-4 border-b border-white/5 bg-slate-950/20 backdrop-blur-md sticky top-0 gap-4">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center shadow-lg shadow-blue-500/20">
-            <RefreshCw className="w-5 h-5 text-white" />
+          <div className="w-8 h-8 rounded-lg overflow-hidden shadow-lg shadow-blue-500/20">
+            <img src="https://raw.githubusercontent.com/dapidd12/storage/main/tes/1777687843806-Screenshot_20260502_090914.jpg" alt="Logo" className="w-full h-full object-cover" />
           </div>
           <h1 className="text-xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400">{t.title}</h1>
         </div>
@@ -688,8 +688,8 @@ export default function App() {
               </button>
 
               <div className="flex flex-col items-center text-center space-y-4 relative z-10">
-                <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-500/20 mb-2">
-                  <Wand2 className="w-8 h-8 text-white" />
+                <div className="w-16 h-16 rounded-2xl overflow-hidden shadow-lg shadow-blue-500/20 mb-2">
+                  <img src="https://raw.githubusercontent.com/dapidd12/storage/main/tes/1777687843806-Screenshot_20260502_090914.jpg" alt="Logo" className="w-full h-full object-cover" />
                 </div>
                 
                 <h3 className="text-2xl sm:text-3xl font-extrabold text-white">
