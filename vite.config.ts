@@ -26,12 +26,14 @@ export default defineConfig(({mode}) => {
             {
               src: 'https://raw.githubusercontent.com/dapidd12/storage/main/tes/1777687843806-Screenshot_20260502_090914.jpg',
               sizes: '192x192',
-              type: 'image/jpeg'
+              type: 'image/jpeg',
+              purpose: 'any maskable'
             },
             {
               src: 'https://raw.githubusercontent.com/dapidd12/storage/main/tes/1777687843806-Screenshot_20260502_090914.jpg',
               sizes: '512x512',
-              type: 'image/jpeg'
+              type: 'image/jpeg',
+              purpose: 'any maskable'
             }
           ]
         }
